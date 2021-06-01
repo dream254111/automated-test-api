@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +28,13 @@ namespace AutomatedTestAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(option => option.JsonSerializerOptions.PropertyNamingPolicy = null);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AutomatedTestAPI", Version = "v1" });
             });
+
+            services.AddScoped<IUtility, Utility>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
